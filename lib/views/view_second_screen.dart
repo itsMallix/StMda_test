@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:suitmedia_test/components/theme_colors..dart';
+import 'package:suitmedia_test/components/theme_text.dart';
 import 'package:suitmedia_test/views/view_third_screen.dart';
 
-class SecondScreen extends StatelessWidget {
+class SecondScreen extends StatefulWidget {
   final String name;
 
   const SecondScreen({
@@ -9,6 +11,12 @@ class SecondScreen extends StatelessWidget {
     required this.name,
   });
 
+  @override
+  State<SecondScreen> createState() => _SecondScreenState();
+}
+
+class _SecondScreenState extends State<SecondScreen> {
+  String? selectedUserName;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,20 +46,18 @@ class SecondScreen extends StatelessWidget {
           children: [
             const Text("Welcome"),
             Text(
-              name,
+              widget.name,
               style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
             ),
-            Spacer(),
+            const Spacer(),
             Center(
               child: Text(
-                "Selected User Name",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 24.0,
-                ),
+                selectedUserName ?? "Selected Username",
+                style: TextSystem.text_fullName
+                    .copyWith(color: ColorSystem.color_black, fontSize: 24),
               ),
             ),
-            Spacer(),
+            const Spacer(),
           ],
         ),
       ),
@@ -64,19 +70,26 @@ class SecondScreen extends StatelessWidget {
             height: 40,
             width: 310,
             decoration: BoxDecoration(
-              color: Color(0xff2B637B),
+              color: ColorSystem.color_button,
               borderRadius: BorderRadius.circular(12.0),
             ),
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
-                  backgroundColor: Color(0xff2B637B), elevation: 0),
-              onPressed: () {
-                Navigator.push(
+                backgroundColor: ColorSystem.color_button,
+                elevation: 0,
+              ),
+              onPressed: () async {
+                final result = await Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => const ThirdScreen(),
                   ),
-                );
+                ) as String?;
+                if (result != null) {
+                  setState(() {
+                    selectedUserName = result;
+                  });
+                }
               },
               child: const Text(
                 "Choose a User",

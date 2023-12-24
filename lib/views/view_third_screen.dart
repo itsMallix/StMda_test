@@ -67,6 +67,9 @@ class _ThirdScreenState extends State<ThirdScreen> {
             return Padding(
               padding: const EdgeInsets.only(top: 8.0),
               child: ListTile(
+                onTap: () {
+                  Navigator.pop(context, '${user.firstName} ${user.lastName}');
+                },
                 leading: CircleAvatar(
                   radius: 40,
                   backgroundImage: NetworkImage(user.avatar),
